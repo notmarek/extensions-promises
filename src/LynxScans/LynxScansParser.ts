@@ -9,12 +9,12 @@ export interface UpdatedManga {
 
 export const parseMangaDetails = ($: CheerioStatic, mangaId: string): Manga => {
   const panel = $("#content");
-
   const titles = [];
   titles.push(decodeHTMLEntity($(".heading.py-2>h5.text-highlight", panel).contents().text() ?? ""));
 
   const image = $(".media-content", panel).attr("style")?.replace("background-image:url(", "https://lynxscans.com").replace(")", "");
-  const description = decodeHTMLEntity($(".col-lg-9.col-md-8.col-xs-12.text-muted", panel).contents().remove().last().text().trim());
+  const description = $("[name=\"description\"]").attr("content");
+
 
 
   const tagSections: TagSection[] = [createTagSection({ id: '0', label: 'genres', tags: [] })];
@@ -28,7 +28,7 @@ export const parseMangaDetails = ($: CheerioStatic, mangaId: string): Manga => {
     author: "",
     artist: "",
     tags: tagSections,
-    desc: description ?? "",
+    desc: !description ? "" : decodeHTMLEntity(description),
     hentai: false
   });
 }
