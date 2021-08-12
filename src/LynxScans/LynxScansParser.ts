@@ -40,7 +40,6 @@ export const parseChapters = ($: CheerioStatic, mangaId: string): Chapter[] => {
 
     const title = decodeHTMLEntity($("a.item-author.text-color", chapter).text().trim());
     const id = $("a.item-author.text-color", chapter).attr('href')?.split('/').pop() ?? "";
-    const date = new Date("");
     let chapterNumber: number = parseInt($(".text-muted.text-sm", chapter).text().trim() ?? "0");
     if (!id) continue;
     chapters.push(createChapter({
@@ -49,7 +48,7 @@ export const parseChapters = ($: CheerioStatic, mangaId: string): Chapter[] => {
       name: title,
       langCode: LanguageCode.ENGLISH,
       chapNum: chapterNumber,
-      time: date,
+      time: undefined,
     }));
   }
   return chapters;
